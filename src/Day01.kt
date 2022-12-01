@@ -1,27 +1,22 @@
 fun main() {
     fun getListOfCalories(input: List<String>): List<Int> {
-        var acc: Int = 0
-        val data = input.fold(listOf<Int>()) { a, b ->
-            if (b == "") {
-                val ret = a + acc
-                acc = 0
-                ret
-            } else {
-                acc += b.toInt()
-                a
-            }
+        return input.fold(mutableListOf(0)) { acc, item ->
+            if (item.isBlank()) acc.add(0)
+            else acc[acc.size - 1] = acc.last() + item.toInt()
+            acc
         }
-        return data + acc
     }
 
     fun part1(input: List<String>): Int {
-        val listOfCalories = getListOfCalories(input)
-        return listOfCalories.maxOrNull()?:0
+        return getListOfCalories(input)
+            .max()
     }
 
     fun part2(input: List<String>): Int {
-        val listOfCalories = getListOfCalories(input).sortedDescending()
-        return listOfCalories[0] + listOfCalories[1] + listOfCalories[2]
+        return getListOfCalories(input)
+            .sortedDescending()
+            .take(3)
+            .sum()
     }
 
     val testInput = readInput("Day01_test")
